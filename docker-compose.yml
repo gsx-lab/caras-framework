@@ -1,0 +1,36 @@
+version: '2'
+
+volumes:
+  db-storage:
+  app-result:
+  app-gems:
+  app-node_modules:
+
+services:
+  db:
+    container_name: caras-db
+    image: postgres:9.6
+    environment:
+      POSTGERS_PASSWORD: caras
+      POSTGRES_USER: caras
+    volumes:
+    - db-storage:/var/lib/postgresql/data
+    - ./containers/db/copy_conf.sh:/docker-entrypoint-initdb.d/copy_conf.sh:ro
+    - ./containers/db/postgresql.conf:/etc/postgresql.conf:ro
+
+  app:
+    container_name: caras-app
+    build: ./
+    image: caras-app:1.0.0
+    volumes:
+    - app-result:/caras-app/result
+    - app-gems:/caras-app/vendor/bundle
+    - app-node_modules:/caras-app/node_modules
+    - ./ext:/caras-app/ext:ro
+    - ./test_suites:/caras-app/test_suites:rw
+    tmpfs:
+    - /caras-app/tmp
+    environment:
+      DB_HOST: db
+    depends_on:
+    - db

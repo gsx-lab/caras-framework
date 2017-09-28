@@ -1,0 +1,11 @@
+--title "Caras-Framework"
+--main README.md
+--no-private
+--exclude db/migrate
+--markup=markdown
+--output-dir=yard/
+-
+docs/INSTALL.md
+docs/TUTORIAL.md
+docs/DEVELOP_TEST_SUITES.md
+LICENSE

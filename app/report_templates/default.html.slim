@@ -1,0 +1,343 @@
+/ Copyright 2017 Global Security Experts Inc.
+/
+/ Licensed under the Apache License, Version 2.0 (the "License");
+/ you may not use this file except in compliance with the License.
+/ You may obtain a copy of the License at
+/
+/     http://www.apache.org/licenses/LICENSE-2.0
+/
+/ Unless required by applicable law or agreed to in writing, software
+/ distributed under the License is distributed on an "AS IS" BASIS,
+/ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/ See the License for the specific language governing permissions and
+/ limitations under the License.
+/
+doctype 5
+html
+  meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+  head
+    title Security Audit Report for #{@site.name}
+    - dist = @path_to[:node_modules].join('sb-admin-2', 'dist')
+    - vendor = @path_to[:node_modules].join('sb-admin-2', 'vendor')
+    script == File.read(vendor.join('jquery', 'jquery.min.js'))
+    script == File.read(vendor.join('bootstrap', 'js', 'bootstrap.min.js'))
+    script == File.read(vendor.join('metisMenu', 'metisMenu.min.js'))
+    script == File.read(dist.join('js', 'sb-admin-2.min.js'))
+    style == File.read(vendor.join('bootstrap', 'css', 'bootstrap.min.css'))
+    style == File.read(vendor.join('metisMenu', 'metisMenu.min.css'))
+    style == File.read(dist.join('css', 'sb-admin-2.min.css'))
+
+    css:
+      pre {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        font-size: 10px;
+        padding: 2px;
+        margin: 0;
+        border: 0;
+        background-color: initial;
+      }
+      body {
+        padding-top: 52px;
+        padding-bottom: 0px;
+        font-size: 12px;
+      }
+      .table > thead > tr > td,
+      .table > thead > tr > th,
+      .table > tbody > tr > td,
+      .table > tbody > tr > th,
+      .table > tfoot > tr > td,
+      .table > tfoot > tr > th {
+        padding: 4px;
+      }
+
+      @media (min-width: 768px) {
+        .sidebar {
+          width: 130px;
+        }
+        #page-wrapper {
+          margin: 0 0 0 130px;
+          padding: 10px 10px;
+        }
+      }
+      .evidences {
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 2px;
+        margin-top: 0;
+      }
+      .evidences:nth-child(n+2) {
+        margin-top: 4px;
+      }
+
+  body
+    /=====================================================================
+    / lambda
+    /---------------------------------------------------------------------
+    /---------------------------------------------------------------------
+    - severity_color = lambda do |severity|
+      - case severity
+        - when 'critical' then 'danger'
+        - when 'high' then 'danger'
+        - when 'middle' then 'warning'
+        - when 'low' then 'info'
+        - else 'success'
+
+    /---------------------------------------------------------------------
+    - digest = lambda do |*args|
+      - Digest::MD5.hexdigest(args.map{|a| a.to_s}.join)
+
+    /=======================================================================
+    / navigation
+    div class="wrapper"
+      nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0"
+        /---------------------------------------------------------------------
+        / header
+        div class="navbar-header"
+          button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
+            span class="sr-only" Toggle navigation
+            span class="icon-bar"
+            span class="icon-bar"
+            span class="icon-bar"
+          a class="navbar-brand" href="#home-tab" data-toggle="tab" Security Audit Report for #{@site.name}
+
+
+        /---------------------------------------------------------------------
+        / side bar
+        div class="navbar-default sidebar" role="navigation"
+          div class="sidebar-nav navbar-collapse" aria-expanded="false" style="height: 1px;"
+            ul class="nav" id="side-menu"
+              li
+                a href="#home-tab" data-toggle="tab" Home
+              - @site.hosts.each do |host|
+                - id = digest.call(host.ip)
+                li
+                  a href="#" id="sub-menu_#{id}" = host.ip
+                  ul class="nav nav-second-level collapse"
+                    li
+                      a href="#summary_#{id}" data-toggle="tab" Summary
+                    li
+                      a href="#openports_#{id}" data-toggle="tab" Open Ports
+                    li
+                      a href="#vuln_#{id}" data-toggle="tab" Vulnerabilities
+                    li
+                      a href="#evid_#{id}" data-toggle="tab" All Evidences
+
+
+
+    /=======================================================================
+    / contents
+    div id="page-wrapper"
+      div id="auditReportTabContent" class="tab-content"
+
+        /=====================================================================
+        / Home
+        div class="tab-pane fade in active" id="home-tab"
+
+          table class="table table-striped ui-responsive" data-role="table"
+            tbody
+              tr
+                th Site created
+                td = @site.created_at.strftime('%Y/%m/%d %H:%M:%S.%L')
+              tr
+                th Attack started
+                td = @site.attack_started.strftime('%Y/%m/%d %H:%M:%S.%L') if @site.attack_started
+              tr
+                th Attack finished
+                td = @site.attack_finished.strftime('%Y/%m/%d %H:%M:%S.%L') if @site.attack_finished
+          hr
+
+          table class="table table-striped ui-responsive" data-role="table"
+            caption Site Summary
+            thead
+              tr
+                th #
+                th IP Address
+                th Hostname
+                th Open Ports
+                th style="width: 47px;" Critical
+                th style="width: 47px;" High
+                th style="width: 47px;" Middle
+                th style="width: 47px;" Low
+                th style="width: 47px;" Info
+
+            tbody
+              - @site.hosts.each.with_index(1) do |host, index|
+                - id = digest.call(host.ip)
+                tr
+                  td = index
+                  td
+                    a href=="#summary_#{id}" data-toggle="tab" = host.ip
+                  td == CGI.escapeHTML(host.hostnames.each.map{|hn| hn.name}.join("\n")).gsub("\n", "<br />")
+                  td
+                    a href=="#openports_#{id}" data-toggle="tab" = "tcp:#{host.tcp.open_ports.length}, udp:#{host.udp.open_ports.length}"
+                  td align="center" class="#{severity_color.call('critical')}" = host.vulnerabilities.critical.count
+                  td align="center" class="#{severity_color.call('high')}" = host.vulnerabilities.high.count
+                  td align="center" class="#{severity_color.call('middle')}" = host.vulnerabilities.middle.count
+                  td align="center" class="#{severity_color.call('low')}" = host.vulnerabilities.low.count
+                  td align="center" class="#{severity_color.call('info')}" = host.vulnerabilities.info.count
+
+
+        - @site.hosts.each.with_index(1) do |host, index|
+          - id = digest.call(host.ip)
+
+          /=====================================================================
+          / Summary
+          div class="tab-pane fade" id="summary_#{id}"
+            = "#{host.ip} Summary"
+            table class="table table-striped"
+              thead
+                tr
+                  th #
+                  th Name
+                  th Severity
+                  th Targets
+              tbody
+                - host.vulnerabilities.group(:id).order(severity: :desc).each.with_index(1) do |v, i|
+                  - vuln_id = digest.call(id, v.id)
+                  tr
+                    td = i
+                    td
+                      a href="#vuln_detail_#{vuln_id}" data-tab-id="#vuln_#{id}" = v.name
+                    td class="#{severity_color.call(v[:severity])}" = v.severity
+                      pre = v.description
+                    td
+                      - host.evidences_ordered.where(vulnerability: v).each do |e|
+                        - if e.port
+                          - target = e.port
+                          - display_name = "#{host.ip}:#{target.no}/#{target.proto}"
+                        - else
+                          - target = host
+                          - display_name = host.ip
+                        - evidence_id = digest.call(id, e.id)
+                        p
+                          a href="#evid_detail_#{evidence_id}" data-tab-id="#evid_#{id}" = display_name
+
+          /=====================================================================
+          / Open Ports
+          div class="tab-pane fade" id="openports_#{id}"
+            = "#{host.ip} Open Ports"
+            table class="table table-striped"
+              thead
+                tr
+                  th[rowspan=2] Proto
+                  th[rowspan=2] No
+                  th[rowspan=2] State
+                  th[rowspan=2] Plain?
+                  th[rowspan=2] SSL?
+                  th Service
+                  th nmap service
+                  th nmap version
+                tr
+                  th[colspan=3] banners
+              tbody
+                - host.ports.order(proto: :asc, no: :asc).each do |p|
+                  - rowspan = p.banners.count + 1
+                  tr
+                    td[rowspan=rowspan] = p.proto
+                    td[rowspan=rowspan] = p.no
+                    td[rowspan=rowspan] = p.state
+                    td[rowspan=rowspan] = p.plain
+                    td[rowspan=rowspan] = p.ssl
+                    td = p.service
+                    td = p.nmap_service
+                    td = p.nmap_version
+                  - p.banners.each do |banner|
+                    tr
+                      td[colspan=3] = banner.info
+
+          /=====================================================================
+          / Vulnerabilities
+          div class="tab-pane fade" id="vuln_#{id}"
+            = "#{host.ip} Vulnerabilities Detail"
+            - host.vulnerabilities.group(:id).order(severity: :desc, updated_at: :desc).each.with_index(1) do |v, index|
+              - vuln_id = digest.call(id, v.id)
+              div id="vuln_detail_#{vuln_id}"
+                table class="table table-bordered table-condenced table-responsive"
+                  tbody
+                    tr
+                      th style="width: 84px;" Name
+                      td = "(#{index}) #{v[:name]}"
+                    tr
+                      th Severity
+                      td class="#{severity_color.call(v[:severity])}" colspan="2" = v[:severity]
+                    tr
+                      th Description
+                      td
+                        pre = v[:description]
+
+                    tr
+                      th Evidences
+                      td
+                        - host.evidences_ordered.where(vulnerability: v).each do |e|
+                          - if e.port
+                            - target = e.port
+                            - display_name = "#{host.ip}:#{target.no}/#{target.proto}"
+                          - else
+                            - target = host
+                            - display_name = host.ip
+                          - evidence_id = digest.call(id, e.id)
+                          div.evidences
+                            a href="#evid_detail_#{evidence_id}" data-tab-id="#evid_#{id}" = display_name
+                            pre
+                              = e.data
+
+          /=====================================================================
+          / All Evidences
+          div class="tab-pane fade" id="evid_#{id}"
+            = "#{host.ip} All Evidences"
+            - host.evidences_ordered.includes(:attached_files).each do |e|
+              - evidence_id = digest.call(id, e.id)
+              table class="table table-bordered table-condensed table-responsive" id="evid_detail_#{evidence_id}"
+                tbody
+                  tr
+                    th width="80px" TestCase
+                    td = e.title
+                  tr
+                    th Payload
+                    td
+                      pre = e.payload
+                  tr
+                    th Data
+                    td
+                      pre = e.data
+                  tr
+                    th Files
+                    td
+                      - e.attached_files.each do |af|
+                        div.evidences
+                          = af.filename
+                          p
+                          == af.to_html
+
+
+    javascript:
+      // remove class 'active' when clicked side menu
+      $('#side-menu').find('li').on('click', function () {
+        $('#side-menu').find('li.active').removeClass('active');
+      });
+
+      // change tabs from Home to any
+      $('#home-tab').find('a').on('click', function(){
+        var id = $(this).attr('href').split('_')[1];
+        $('#sub-menu_' + id).click();
+        $('#side-menu').find('a[href="' + $(this).attr('href') + '"]').click();
+      });
+
+      // change tabs from summary to *_detail and scroll
+      $('[id^=summary_], [id^=vuln_]').find('a').on('click', function () {
+
+        var tab_id = $(this).data('tab-id');
+        var target_id = $(this).attr('href');
+
+        // scroll on tab shown
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            // scroll
+            $('html, body').animate({scrollTop: $(target_id).offset().top - 58}, 400, "swing");
+            // remove event
+            $('a[data-toggle="tab"]').off('shown.bs.tab');
+        });
+
+        // select summary_*
+        $('#side-menu').find('a[href="' + tab_id + '"]').click();
+      });

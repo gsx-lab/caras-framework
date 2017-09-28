@@ -1,0 +1,7 @@
+environment: production
+db_env: production
+# db_env: development
+# db_env: test
+test_case_thread_limit: 30
+log_shift_age: daily  # Log rotation
+log_level: :info      # :debug, :info, :warn, :error, :fatal

@@ -1,0 +1,19 @@
+version: '2'
+
+volumes:
+  db-storage:
+
+services:
+  caras-db:
+    container_name: postgres
+    image: postgres:9.5
+    restart: always
+    environment:
+      POSTGRESQL_USER: caras
+      POSTGRESQL_PASSWORD: caras
+    volumes:
+      - db-storage:/var/lib/postgresql/data
+      - ./copy_conf.sh:/docker-entrypoint-initdb.d/copy_conf.sh:ro
+      - ./postgresql.conf:/etc/postgresql.conf:ro
+    ports:
+      - 127.0.0.1:5432:5432

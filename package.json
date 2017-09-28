@@ -1,0 +1,9 @@
+{
+  "name": "caras-framework",
+  "version": "1.0.0",
+  "description": "caras-framework",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "sb-admin-2": "^3.3.8"
+  }
+}
