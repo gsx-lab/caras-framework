@@ -382,7 +382,7 @@ It is a good idea to always use `@console` to see debug messages.  We strongly r
 
 ## Running the implemented *TestCase*
 
-You need to setup a target server and finish port scannings against it.  Like [the Tutorial](TUTORIAL.md) says, load the result of port scannings.  Since the *TestCase* in this example looks for `nmap_service` fields, nmap service scanning is the one you want.
+You need to setup a target server and finish port scanning against it.  Like [the Tutorial](TUTORIAL.md) says, load the result of port scanning.  Since the *TestCase* in this example looks for `nmap_service` fields, nmap service scanning is the one you want.
 
 ### testcase run
 
