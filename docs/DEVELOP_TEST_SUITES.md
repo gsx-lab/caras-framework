@@ -1,6 +1,6 @@
 # Develop *TestSuite*s
 
-Follow the following procedure to develop *TestSuite*s
+Follow the following procedure to develop *TestSuite*s.
 
 1. [Prepare for development](#prepare-for-development)
 2. [Create a directory for a *TestSuite*](#create-a-directory-for-a-testsuite)
@@ -124,7 +124,7 @@ unloaded TestSuites
 carash #
 ```
 
-As shown in the log, the command above detach the active *TestSuite* and loads a *TestSuite* of interest, which in this example is called `my_test_suite`.  Remember, a *TestSuite* is a container that holds *TestCase*s.  But the newly attached *TestSuite* is now empty.  From now on, you will programm the *TestSuite* and add *TestCase*s to it.
+As shown in the log, the command above detach the active *TestSuite* and loads a *TestSuite* of interest, which in this example is called `my_test_suite`.  Remember, a *TestSuite* is a container that holds *TestCase*s.  But the newly attached *TestSuite* is now empty.  From now on, you will program the *TestSuite* and add *TestCase*s to it.
 
 Generate a template for the new *TestCase*.  You might want to name it.  Of course, you can add more than one if you wish.
 
@@ -231,7 +231,7 @@ This variable specifies pre-execution context.  In other words, those defined as
 
   * `'Any::Other::Test::Case'`
 
-    This will tell *TestCase* to start after `Any::Other::Test::Case`.  You need to specify the class name shown in the second line in the temaplate.  In this particular example, it is `My::GreatTest`.  The class name with namepsace corresponds to the relative path from `my_test_suite` directory to the rb file.  More specifically, `Any::Other::Test::Case` represents `caras-frmaework/test_suites/my_test_suite/any/other/test/case.rb`.
+    This will tell *TestCase* to start after `Any::Other::Test::Case`.  You need to specify the class name shown in the second line in the template.  In this particular example, it is `My::GreatTest`.  The class name with namespace corresponds to the relative path from `my_test_suite` directory to the rb file.  More specifically, `Any::Other::Test::Case` represents `caras-frmaework/test_suites/my_test_suite/any/other/test/case.rb`.
 	
     If non-existing or invalid class names are given, they would become `orphan` *TestCase*s, meaning unexecutable.
 
@@ -327,11 +327,11 @@ There are more methods to which you should pay attention in addition to those in
       result[:timeout] # => [Boolean]      : timed out or not
     ```
 
-    If you run `command` like this, it execute the first argument as a command and outputs stdout adn stderr to a file named 'port.log', in the *TestCase* directory.  When completed, the method returns an Hash object that has stdout, stderr and status.  If not completed within the period specified by `ttl`, the method kills the command process and set `timeout` true.  In that case, `err` and `out` are not returned.  `append` parameter indicates append-mode.  It is by default "true".
+    If you run `command` like this, it execute the first argument as a command and outputs stdout and stderr to a file named 'port.log', in the *TestCase* directory.  When completed, the method returns an Hash object that has stdout, stderr and status.  If not completed within the period specified by `ttl`, the method kills the command process and set `timeout` true.  In that case, `err` and `out` are not returned.  `append` parameter indicates append-mode.  It is by default "true".
 
 ### Implementation example
 
-Let us walk you through a more realistic example.  We call it 'http banner grabbber', which obtains Server headers by establishing connections with http ports.  It is to apply the action to every http port, so you need to implement `target_ports` and `attack_on_port`.
+Let us walk you through a more realistic example.  We call it 'http banner grabber', which obtains Server headers by establishing connections with http ports.  It is to apply the action to every http port, so you need to implement `target_ports` and `attack_on_port`.
 
 We will show you the implementation of `target_ports` first.  The example below explains how to extract ports that nmap service detections discover.
 
@@ -429,7 +429,7 @@ Do you see what you have expected?  If you encounter problems, debug with `bindi
 
 ### start carash on debug mode
 
-`carash` has a DEBUG mode.  In that mode, after `carash` initialization, you will be able to start pry console under the condition of no active consle.  Set `DEBUG=1` and start `carash` to become the debug mode.
+`carash` has a DEBUG mode.  In that mode, after `carash` initialization, you will be able to start pry console under the condition of no active console.  Set `DEBUG=1` and start `carash` to become the debug mode.
 
 
 ```
