@@ -13,7 +13,7 @@
 
 Xcode and HomeBrew are necessary to install the framework on macOS.
 
-* [Xcode](https://itunes.apple.com/jp/app/xcode/id497799835?mt=12)
+* [Xcode](https://itunes.apple.com/app/xcode/id497799835)
 * [HomeBrew](https://brew.sh/)
 
 Though it's not indispensable to the framework, it is recommended to install docker to run PostgreSQL. In the following procedure, docker will be used.
