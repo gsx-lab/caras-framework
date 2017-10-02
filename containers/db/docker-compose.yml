@@ -6,7 +6,7 @@ volumes:
 services:
   caras-db:
     container_name: postgres
-    image: postgres:9.5
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRESQL_USER: caras
