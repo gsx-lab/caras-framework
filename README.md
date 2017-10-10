@@ -28,7 +28,7 @@ A set of dependant *TestCase*s makes up a *TestSuite*. *TestSuite*s can be switc
 
 ### Not comprehensive
 
-Unlike well known security scanners such as `Nexpose`, `OpenVas`, `Nessus` and `Retina`, Caras-Framework has no predefined *TestSuite*s. You need to add your own *TestSuite*s. We provide sample *TestSuite*s, though premature. If comprehensive testing is called for, there are a lot of other tools that suffice the goal.
+Unlike well known security scanners such as [Nexpose](https://www.rapid7.com/products/nexpose/), [OpenVAS](http://www.openvas.org), [Nessus](https://www.tenable.com/products/nessus-vulnerability-scanner) and [Retina](https://www.beyondtrust.com/products/retina-network-security-scanner/), Caras-Framework has no predefined *TestSuite*s. You need to add your own *TestSuite*s. We provide sample *TestSuite*s, though premature. If comprehensive testing is called for, there are a lot of other tools that suffice the goal.
 
 
 ### No GUI
