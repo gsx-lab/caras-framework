@@ -2,6 +2,7 @@
 
 Caras-Framework is an automation framework for vulnerability scanning.
 
+[日本語](README.ja.md)
 
 ## Overview
 
