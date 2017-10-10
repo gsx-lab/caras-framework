@@ -49,7 +49,7 @@ Though it's not indispensable to the framework, it is recommended to install doc
 
 3. Start the DBMS
 
-    Start postgres using the included `docker-compose.yml` this time, though it may be installed by brew etc. The following commands start postgresql as a background process. Postgres automatically starts when host OS reboots, since the restart flag of this container is set as "always".
+    Start PostgreSQL using the included `docker-compose.yml` this time, though it may be installed by brew etc. The following commands start PostgreSQL as a background process. PostgreSQL automatically starts when host OS reboots, since the restart flag of this container is set as "always".
 
     ```bash
     $ cd containers/db/
@@ -63,7 +63,7 @@ Though it's not indispensable to the framework, it is recommended to install doc
     $ rbenv install
     ```
 
-5. Install gem
+5. Install gems
 
     ```bash
     $ gem install bundler
@@ -145,6 +145,9 @@ Though it's not indispensable to the framework, it is recommended to install doc
     ```
 
 2. Clone the repository
+
+    Clone Caras-Framework and *TestSuite*.
+
     ```bash
     $ cd path/to/install
     $ git clone https://github.com/gsx-lab/caras-framework.git
@@ -154,7 +157,7 @@ Though it's not indispensable to the framework, it is recommended to install doc
 
 3. Start the DBMS
 
-    Start postgres using the included `docker-compose.yml` this time, though it may be installed from the repository of the distribution. The following commands start postgresql as a background process. Postgres automatically starts when host OS reboots, since the restart flag of this container is set as "always".
+    Start PostgreSQL using the included `docker-compose.yml` this time, though it may be installed from the repository of the distribution. The following commands start PostgreSQL as a background process. PostgreSQL automatically starts when host OS reboots, since the restart flag of this container is set as "always".
 
     ```bash
     $ cd containers/db/
@@ -230,7 +233,8 @@ Next is to learn [how to use the framework](TUTORIAL.md).
 
 docker should be installed to run the framework using docker-compose.
 
-[Install Docker](https://docs.docker.com/engine/installation/)
+* [Install Docker](https://docs.docker.com/engine/installation/)
+* [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Install
 

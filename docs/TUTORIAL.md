@@ -4,7 +4,7 @@ In order to run vulnerability scanning, use `carash` console as explained below.
 
 ## Overview
 
-vulnerability scanning with use of `carash` take the following procedure.
+Vulnerability scanning with use of `carash` take the following procedure.
 
 1. [start `carash`](#boot-carash)
 2. [`site new` to create a new site or `site select` to select the existing sites](#site-new)
@@ -237,4 +237,4 @@ Notice that a directory named `$(pwd)/result` is created. This directory contain
 
 Hope you'll find this tutorial helpful. `carash` has many other commands. Get familiar with them by referring to help or trying them out. Only `attack` and `testcase run` require safety precautions.
 
-This is the end of the tutorial. The next step is to [develop *TestSuite*s](DEVELOP_TEST_SUITES.md)
+This is the end of the tutorial. The next step is to [develop *TestSuite*s](DEVELOP_TEST_SUITES.md).
