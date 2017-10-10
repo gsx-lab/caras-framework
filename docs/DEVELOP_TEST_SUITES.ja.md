@@ -5,7 +5,7 @@
 1. [開発環境を準備する](#開発環境の準備)
 2. [*TestSuite* を設置するディレクトリを作成する](#testsuite-用ディレクトリの作成)
 3. [*TestCase* のテンプレートを生成する](#testcase-テンプレートの生成)
-4. [テンプレートを元に Awesome な *TestCase* を実装する](#テンプレートを元に-Awesome-な-testcase-を実装)
+4. [テンプレートを元に Awesome な *TestCase* を実装する](#テンプレートを元に-awesome-な-testcase-を実装)
 5. [実装した *TestCase* を実行する](#実装した-testcase-を実行)
 
 ## 開発環境の準備
@@ -221,7 +221,7 @@ carash $
 
   * `'Any::Other::Test::Case'`
 
-    この *TestCase* は `Any::Other::Test::Case` の終了後に実行されます. ここで指定すべきクラス名は, `testcase new` コマンドで生成されたコードの2行目に記述されています. 先の例であれば `My::GreatTest` です. この名称は, `my_test_suite` ディレクトリから rb ファイルへの相対パスと一致します. すなわち, `caras-framework/test_suites_my_test_suite/any/other/test/case.rb` の場合は `Any::Other::Test::Case` です.
+    この *TestCase* は `Any::Other::Test::Case` の終了後に実行されます. ここで指定すべきクラス名は, `testcase new` コマンドで生成されたコードの2行目に記述されています. 先の例であれば `My::GreatTest` です. この名称は, `my_test_suite` ディレクトリから rb ファイルへの相対パスと一致します. すなわち, `caras-framework/test_suites/my_test_suite/any/other/test/case.rb` の場合は `Any::Other::Test::Case` です.
 
     もし, 存在しないクラス名を指定した場合は `orphan` *TestCase* であると認識されて, 自動的には実行されません.
 
@@ -259,7 +259,7 @@ carash $
 | @ip | 診断対象ホストのIPアドレスを示す *String* |
 | @console | ログメッセージの出力とユーザからの入力を受けつける *Console* のインスタンス |
 | @site_mutex | *Site* 単位で使用される同期処理用のMutex |
-| @mutex | 大将ホスト単位の同期処理用の Mutex. `attack_on_port` メソッドは *TestCase* インスタンスによって生成された多数の *Thread* から実行されます. `attack_on_port` メソッドの実装に於いて, 同期処理が必要な場合は `@mutex` を使用してください. |
+| @mutex | 対象ホスト単位の同期処理用の Mutex. `attack_on_port` メソッドは *TestCase* インスタンスによって生成された多数の *Thread* から実行されます. `attack_on_port` メソッドの実装に於いて, 同期処理が必要な場合は `@mutex` を使用してください. |
 
 ### 実装済みの method
 
