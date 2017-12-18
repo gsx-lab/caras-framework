@@ -1,4 +1,4 @@
-FROM ruby:2.4.2
+FROM ruby:2.4.3
 
 ENV APPDIR="/caras-app/" \
     LANG="C.UTF-8"
