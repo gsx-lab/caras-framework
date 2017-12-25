@@ -20,8 +20,7 @@ services:
 
   app:
     container_name: caras-app
-    build: ./
-    image: caras-app:1.0.0
+    image: gsxlab/caras-framework
     volumes:
     - app-result:/caras-app/result
     - app-gems:/caras-app/vendor/bundle
