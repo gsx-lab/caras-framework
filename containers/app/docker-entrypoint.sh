@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+function interrupt () {
+  printf "\nCaras-Framework boot process is interrupted.\n"
+  exit 1
+}
+
+trap interrupt INT
+
 function wait_for_postgres () {
   printf "Waiting for postgres to be up" >&2
   until psql -h "$DB_HOST" -U "postgres" -c "\l" > /dev/null 2>&1; do
