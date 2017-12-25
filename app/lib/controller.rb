@@ -41,7 +41,7 @@ require_relative 'db_accessor'
 require_relative 'thread_manager'
 
 class Controller
-  VERSION = '1.0.0'.freeze
+  VERSION = '1.0.1'.freeze
 
   attr_reader :env_config
   PROMPT = '%s%s ' + case `whoami`.chomp
