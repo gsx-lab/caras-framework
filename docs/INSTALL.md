@@ -249,10 +249,10 @@ docker should be installed to run the framework using docker-compose.
     $ git clone https://github.com/gsx-lab/caras-testsuite.git test_suites/default
     ```
 
-2. Build docker image
+2. Pull docker image
 
     ```bash
-    $ docker-compose build
+    $ docker pull gsxlab/caras-framework
     ```
 
 ## Start carash
