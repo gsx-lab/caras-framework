@@ -249,10 +249,10 @@ docker-compose で使用するには, docker が必要です.
     $ git clone https://github.com/gsx-lab/caras-testsuite.git test_suites/default
     ```
 
-2. Docker image をビルド
+2. Docker image を Pull する
 
     ```bash
-    $ docker-compose build
+    $ docker pull gsxlab/caras-framework
     ```
 
 ## carash を起動

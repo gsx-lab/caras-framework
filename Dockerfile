@@ -6,12 +6,12 @@ ENV APPDIR="/caras-app/" \
 WORKDIR ${APPDIR}
 
 RUN apt-get update -qq \
- && apt-get install apt-transport-https \
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install apt-transport-https \
  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update -qq \
- && apt-get install -y  --no-install-recommends \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
    libmagic-dev \
    libreadline-dev \
    nmap \
@@ -23,7 +23,9 @@ RUN apt-get update -qq \
  && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* \
  && printf "install: --no-document\nupdate: --no-document\n" >> ~/.gemrc \
  && gem install bundler \
- && bundle config build.nokogiri --use-system-libraries
+ && bundle config build.nokogiri --use-system-libraries \
+ && apt-get clean \
+ && rm -rf /var/cache/apt-archive/* /var/lib/apt/lists/*
 
 COPY ./ ${APPDIR}
 RUN cp ${APPDIR}/containers/app/docker-entrypoint.sh /usr/local/bin \
